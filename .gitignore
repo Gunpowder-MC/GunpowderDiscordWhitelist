@@ -25,6 +25,7 @@ hs_err_pid*
 # Gradle
 .gradle/
 run/
+build/
 secrets.gradle
 
 # IDEA

@@ -52,11 +52,20 @@ repositories {
 
 // Dependencies
 dependencies {
+    // Minecraft
     minecraft "com.mojang:minecraft:${project.minecraft}"
     mappings "net.fabricmc:yarn:${project.minecraft}+build.${project.yarn_build}:v2"
     modImplementation "net.fabricmc:fabric-loader:$project.fabric_loader"
+    modImplementation "net.fabricmc.fabric-api:fabric-api:$project.fabric_api"
+
+    // Gunpowder
     implementation "io.github.gunpowder:gunpowder-api:${project.gunpowder}+${project.minecraft}"
 
+    // Database
+    implementation "org.jetbrains.exposed:exposed-core:$project.exposed"
+    implementation "org.jetbrains.exposed:exposed-java-time:$project.exposed"
+
+    // Kotlin
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk8"
 }
 
