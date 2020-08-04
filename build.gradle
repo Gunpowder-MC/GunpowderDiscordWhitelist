@@ -101,8 +101,7 @@ processResources {
 
     from(project.sourceSets.main.resources.srcDirs) {
         include "fabric.mod.json"
-        expand "version": project.version
-        expand "gunpowder": project.gunpowder
+        expand "version": project.version, "gunpowder": project.gunpowder
     }
 
     from(project.sourceSets.main.resources.srcDirs) {
