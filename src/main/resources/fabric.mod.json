@@ -1,19 +1,18 @@
 {
   "schemaVersion": 1,
-  "id": "gunpowder-template",
+  "id": "gunpowder-discord-whitelist",
   "version": "${version}",
-  "name": "Gunpowder Template",
-  "description": "Gunpowder Template Module",
+  "name": "Gunpowder Discord Whitelist",
+  "description": "Gunpowder Discord Whitelist Module",
   "license": "MIT",
   "icon": "assets/gunpowder/icon.png",
   "environment": "*",
   "entrypoints": {
     "gunpowder:modules": [
-      "io.github.gunpowder.GunpowderTemplateModule"
+      "io.github.gunpowder.GunpowderWhitelistModule"
     ]
   },
   "mixins": [
-    "mixins.template.gunpowder.json"
   ],
   "depends": {
     "gunpowder-base": ">=${gunpowder}",

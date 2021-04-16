@@ -1,5 +1,5 @@
-# GunpowderTemplate 1.0
+# Gunpowder Discord Whitelist 1.0
 
-- No changes
+- Created mod
 
 ---

@@ -27,4 +27,7 @@ dependencies {
             }
         }
     }
+
+    implementation "net.dv8tion:JDA:4.2.0_227"
+    shade "net.dv8tion:JDA:4.2.0_227"
 }

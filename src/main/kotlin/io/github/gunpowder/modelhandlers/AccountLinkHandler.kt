@@ -22,20 +22,42 @@
  * SOFTWARE.
  */
 
-package io.github.gunpowder.mixin.plugin
+package io.github.gunpowder.modelhandlers
 
-import org.objectweb.asm.tree.ClassNode
-import org.spongepowered.asm.mixin.extensibility.IMixinConfigPlugin
-import org.spongepowered.asm.mixin.extensibility.IMixinInfo
+import io.github.gunpowder.api.GunpowderMod
+import io.github.gunpowder.entities.StoredLink
+import io.github.gunpowder.models.DiscordLinkTable
+import org.jetbrains.exposed.sql.insert
+import org.jetbrains.exposed.sql.selectAll
 
-class TemplateModulePlugin : IMixinConfigPlugin {
-    override fun onLoad(mixinPackage: String) {}
-    override fun getRefMapperConfig(): String? { return null }
-    override fun shouldApplyMixin(targetClassName: String, mixinClassName: String): Boolean {
-        return true // TODO: Config?
+object AccountLinkHandler {
+    private val db by lazy {
+        GunpowderMod.instance.database
     }
-    override fun acceptTargets(myTargets: Set<String>, otherTargets: Set<String>) {}
-    override fun getMixins(): List<String>? { return null }
-    override fun preApply(targetClassName: String, targetClass: ClassNode, mixinClassName: String, mixinInfo: IMixinInfo) {}
-    override fun postApply(targetClassName: String, targetClass: ClassNode, mixinClassName: String, mixinInfo: IMixinInfo) {}
+
+    val entries = mutableListOf<StoredLink>()
+
+    init {
+        val items = db.transaction {
+            DiscordLinkTable.selectAll().map {
+                StoredLink(it[DiscordLinkTable.discordId], it[DiscordLinkTable.minecraftUUID])
+            }.toList()
+        }.get()
+        entries.addAll(items)
+    }
+
+    fun isRegistered(user: Long): Boolean {
+        return entries.any { it.discord == user }
+    }
+
+    fun registerUser(e: StoredLink) {
+        db.transaction {
+            DiscordLinkTable.insert {
+                it[discordId] = e.discord;
+                it[minecraftUUID] = e.minecraft;
+            }
+        }.thenAccept {
+            entries.add(e)
+        }
+    }
 }

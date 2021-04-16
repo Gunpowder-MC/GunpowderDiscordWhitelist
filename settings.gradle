@@ -8,4 +8,4 @@ pluginManagement {
     }
 }
 
-rootProject.name = "gunpowder-template"
+rootProject.name = "gunpowder-discord-whitelist"

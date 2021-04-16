@@ -22,14 +22,10 @@
  * SOFTWARE.
  */
 
-package io.github.gunpowder
+package io.github.gunpowder.configs
 
-import io.github.gunpowder.api.GunpowderMod
-import io.github.gunpowder.api.GunpowderModule
-
-class GunpowderTemplateModule : GunpowderModule {
-    override val name = "template"
-    override val toggleable = true
-    val gunpowder: GunpowderMod
-        get() = GunpowderMod.instance
-}
+data class DiscordConfig(
+    val token: String,
+    val roles: List<String>,
+    val channel: String,
+)

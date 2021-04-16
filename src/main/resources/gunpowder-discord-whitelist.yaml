@@ -1,0 +1,10 @@
+# Token for the Discord Bot
+token: "TOKEN_HERE"
+
+# Roles that allow people to use !register once
+roles:
+  - "12345"
+  - "67890"
+
+# Channel where the bot should listen for commands
+channel: "1234567890"
