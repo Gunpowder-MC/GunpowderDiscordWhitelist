@@ -47,7 +47,7 @@ object DiscordListener : ListenerAdapter() {
         // DOES have the role on discord
         event.jda.guilds.first().members.forEach { member ->
             if (AccountLinkHandler.isRegistered(member.idLong)) {
-                val entry = AccountLinkHandler.entries.first { it.discord == member.idLong }
+                val entry = AccountLinkHandler.get(member.idLong)
                 if (member.roles.any { it.id in config.roles }) {
                     GunpowderWhitelistModule.whitelist(entry.minecraft)
                 } else {
@@ -92,7 +92,7 @@ object DiscordListener : ListenerAdapter() {
         // If so, whitelist
         try {
             if (AccountLinkHandler.isRegistered(event.user.idLong) && event.member.roles.any { it.id in config.roles }) {
-                val entry = AccountLinkHandler.entries.first { it.discord == event.user.idLong }
+                val entry = AccountLinkHandler.get(event.user.idLong)
                 GunpowderWhitelistModule.whitelist(entry.minecraft)
             }
         } catch (e: Exception) {
@@ -106,7 +106,7 @@ object DiscordListener : ListenerAdapter() {
         // remove from whitelist if not
         try {
             if (AccountLinkHandler.isRegistered(event.user.idLong) && event.member.roles.none { it.id in config.roles }) {
-                val entry = AccountLinkHandler.entries.first { it.discord == event.user.idLong }
+                val entry = AccountLinkHandler.get(event.user.idLong)
                 GunpowderWhitelistModule.unwhitelist(entry.minecraft)
             }
         } catch (e: Exception) {
@@ -119,7 +119,7 @@ object DiscordListener : ListenerAdapter() {
         // Remove from whitelist
         try {
             if (AccountLinkHandler.isRegistered(event.user.idLong)) {
-                val entry = AccountLinkHandler.entries.first { it.discord == event.user.idLong }
+                val entry = AccountLinkHandler.get(event.user.idLong)
                 GunpowderWhitelistModule.unwhitelist(entry.minecraft)
             }
         } catch (e: Exception) {

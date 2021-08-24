@@ -28,6 +28,7 @@ import io.github.gunpowder.api.GunpowderMod
 import io.github.gunpowder.entities.StoredLink
 import io.github.gunpowder.models.DiscordLinkTable
 import org.jetbrains.exposed.sql.insert
+import org.jetbrains.exposed.sql.select
 import org.jetbrains.exposed.sql.selectAll
 
 object AccountLinkHandler {
@@ -35,19 +36,17 @@ object AccountLinkHandler {
         GunpowderMod.instance.database
     }
 
-    val entries = mutableListOf<StoredLink>()
-
-    init {
-        val items = db.transaction {
-            DiscordLinkTable.selectAll().map {
-                StoredLink(it[DiscordLinkTable.discordId], it[DiscordLinkTable.minecraftUUID])
-            }.toList()
+    fun isRegistered(user: Long): Boolean {
+        return db.transaction {
+            DiscordLinkTable.select { DiscordLinkTable.discordId.eq(user) }.firstOrNull() != null
         }.get()
-        entries.addAll(items)
     }
 
-    fun isRegistered(user: Long): Boolean {
-        return entries.any { it.discord == user }
+    fun get(user: Long) : StoredLink {
+        return db.transaction {
+            val row = DiscordLinkTable.select { DiscordLinkTable.discordId.eq(user) }.first()
+            StoredLink(row[DiscordLinkTable.discordId], row[DiscordLinkTable.minecraftUUID])
+        }.get()
     }
 
     fun registerUser(e: StoredLink) {
@@ -56,8 +55,6 @@ object AccountLinkHandler {
                 it[discordId] = e.discord;
                 it[minecraftUUID] = e.minecraft;
             }
-        }.thenAccept {
-            entries.add(e)
         }
     }
 }

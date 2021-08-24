@@ -51,7 +51,7 @@ class GunpowderWhitelistModule : GunpowderModule {
 
     override fun registerEvents() {
         ServerLifecycleEvents.SERVER_STARTED.register {
-            gunpowder.server.playerManager.setWhitelistEnabled(true)
+            gunpowder.server.playerManager.isWhitelistEnabled = true
             val config = gunpowder.registry.getConfig(DiscordConfig::class.java)
             val builder = JDABuilder.createDefault(config.token)
             builder.addEventListeners(DiscordListener)
