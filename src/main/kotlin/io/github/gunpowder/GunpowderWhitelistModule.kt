@@ -33,6 +33,7 @@ import net.dv8tion.jda.api.JDABuilder
 import net.fabricmc.fabric.api.event.lifecycle.v1.ServerLifecycleEvents
 import net.minecraft.server.WhitelistEntry
 import java.util.*
+import kotlin.concurrent.thread
 
 class GunpowderWhitelistModule : GunpowderModule {
     override val name = "gunpowder-discord-whitelist"
@@ -56,9 +57,12 @@ class GunpowderWhitelistModule : GunpowderModule {
             val builder = JDABuilder.createDefault(config.token)
             builder.addEventListeners(DiscordListener)
             val jda = builder.build()
-            println("Waiting for ready")
-            jda.awaitReady()
-            println("Ready")
+
+            thread(start=true, name="WaitForJDA") {
+                println("Waiting for ready")
+                jda.awaitReady()
+                println("Ready")
+            }
         }
     }
 
@@ -68,13 +72,13 @@ class GunpowderWhitelistModule : GunpowderModule {
         }
 
         fun getUuidByUsername(username: String): UUID {
-            val profile = server.userCache.findByName(username)
+            val profile = server.userCache.findByName(username).orElse(null)
             return profile?.id ?: error("Log in on the server first!")
         }
 
         fun whitelist(user: UUID) {
             println("Whitelisting $user")
-            val profile = server.userCache.getByUuid(user)
+            val profile = server.userCache.getByUuid(user).orElse(null)
             if (server.playerManager.isWhitelisted(profile)) {
                 error("User is already whitelisted!")
             }
@@ -83,7 +87,7 @@ class GunpowderWhitelistModule : GunpowderModule {
 
         fun unwhitelist(user: UUID) {
             println("Unwhitelisting $user")
-            val profile = server.userCache.getByUuid(user)
+            val profile = server.userCache.getByUuid(user).orElse(null)
             if (!server.playerManager.isWhitelisted(profile)) {
                 error("User is not whitelisted!")
             }

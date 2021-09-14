@@ -1,33 +1,9 @@
-buildscript {
-    dependencies {
-        // Some bugs in Loom caused this; Hopefully this can be removed soon
-        constraints {
-            ["asm", "asm-util", "asm-tree", "asm-analysis"].forEach {
-                classpath("org.ow2.asm:$it") {
-                    version { require("9.0") }
-                    because("Fabric's TinyRemapper requires ASM 9")
-                }
-            }
-        }
-    }
-}
-
 // Plugins
 plugins {
-    id 'io.github.gunpowder' version '0.2.8'
+    id 'io.github.gunpowder' version '0.3.2'
 }
 
 dependencies {
-    // Needed here too
-    constraints {
-        ["asm", "asm-util", "asm-tree", "asm-analysis"].forEach {
-            implementation("org.ow2.asm:$it") {
-                version { require("9.0") }
-                because("Fabric's TinyRemapper requires ASM 9")
-            }
-        }
-    }
-
-    implementation "net.dv8tion:JDA:4.2.0_227"
-    shade "net.dv8tion:JDA:4.2.0_227"
+    implementation "net.dv8tion:JDA:4.2.0_247"
+    shade "net.dv8tion:JDA:4.2.0_247"
 }
