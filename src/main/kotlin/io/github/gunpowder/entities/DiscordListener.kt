@@ -78,7 +78,7 @@ object DiscordListener : ListenerAdapter() {
                 if (event.member!!.roles.any { it.id in config.roles }) {
                     GunpowderWhitelistModule.whitelist(uuid)
                 }
-                event.channel.sendMessage("Registered!")
+                event.channel.sendMessage("Registered!").queue()
             }
         } catch (e: Exception) {
             val message = e.message ?: "An error occurred"
