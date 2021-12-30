@@ -1,3 +1,9 @@
+# Gunpowder Discord Whitelist 1.0.3
+
+- Update to 1.18
+
+---
+
 # Gunpowder Discord Whitelist 1.0.2
 
 - Fix not sendin a confirmation message
